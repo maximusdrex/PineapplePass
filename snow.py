@@ -12,7 +12,7 @@ xarr = [i*5280 for i in xarr]
 print(xarr)
 altarr = [4868, 4845, 4812, 4775]
 
-plt.plot(xarr, altarr)
+# plt.plot(xarr, altarr)
 
 def computeSlope(dx, dy):
     print("dx: " + str(dx) + "  dy: " + str(dy))
@@ -32,7 +32,9 @@ print(lenarr)
 m = width*depth*length*450
 Fg = m*9.8
 
-for i in range(0,3):
+times = [0]
+
+for i in range(0,len(slopearr)):
     F1 = Fg * numpy.cos(slopearr[i])
     Fn = Fg * numpy.sin(slopearr[i])
     Ffk = uk * Fn
@@ -40,7 +42,9 @@ for i in range(0,3):
     a = Fnet/m
     len = lenarr[i] * 0.3048
     dt = numpy.sqrt(len*2/a)
+    times.append(times[i] + dt)
     vf = a*dt
     print("dt: " + str(dt) + " vf: " +str(vf))
 
+plt.plot(times, altarr)
 plt.show()
