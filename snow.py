@@ -8,21 +8,33 @@ depth = .75
 uk = .3
 
 xarr = [0, 0.01, 0.02, 0.03]
-xarr = [i*5280 for i in xarr]
-print(xarr)
+xarr = [i*1609.34 for i in xarr]
+#convert to meters
+print("x: " + str(xarr))
 altarr = [4868, 4845, 4812, 4775]
+#convert to meters
+altarr = [i*0.3048 for i in altarr]
+print("altitudes: " + str(altarr))
+
+if(len(xarr) != len(altarr)):
+    print("error! \n Lengths of x array and altitude array do not match")
+    exit()
 
 plt.plot(xarr, altarr)
 
-def computeSlope(dx, dy):
-    print("dx: " + str(dx) + "  dy: " + str(dy))
-    tan = dy/dx
-    print(tan)
-    slope = (numpy.arctan(tan))
-    return (slope * -1)
+dxarr = [xarr[i+1] - xarr[i] for i in range(0, len(xarr) - 1)]
+dyarr = [(altarr[i+1] - altarr[i]) * -1 for i in range(0, len(altarr) - 1)]
+print("dx: " + str(dxarr))
+print("dy: " + str(dyarr))
 
-slopearr = [computeSlope(xarr[i] - xarr[i + 1], altarr[i] - altarr[i + 1]) for i in range(0, 3)]
-print(slopearr)
+
+def computeSlope(dx, dy):
+    tan = dy/dx
+    slope = (numpy.arctan(tan))
+    return (slope)
+
+slopearr = [computeSlope(dxarr[i], dyarr[i]) for i in range(len(dxarr))]
+print("slopes: " + str(slopearr))
 
 lenarr = [0, 0, 0]
 for i in range(0, 3):
